@@ -1,0 +1,52 @@
+I-Assisted Development Log
+
+*Project:* Internal Helpdesk / Support Ticketing System
+*Live prototype:* https://helpdesk-web-app.github.io/helpdesk-ticketing-system/
+*Repository:* [add your repository link here]
+*AI tool used:* Claude (Anthropic), through the chat interface
+*Date:* 24 September 2026
+
+## 1. Summary
+
+I used an AI assistant as a development partner for the whole project. I supplied the project brief and made the decisions. The AI produced the design, code and documents, and I published the result to GitHub.
+
+## 2. Development steps
+
+| Step | My input | What the AI produced | What I did |
+| --- | --- | --- | --- |
+| 1. Requirements | Shared the project brief as an image (title, brief, technology, five modules, deliverables) | Read the brief and mapped it to the five modules | Confirmed the project and its scope |
+| 2. Prototype | Asked for a website for the project | Working single-file web app: ticket form, priority-sorted queue, live SLA timers, status workflow with validation, comment thread, requester / agent / admin roles | [add what you tested] |
+| 3. Backend | Agreed to build the full version, starting with the database and APIs | PostgreSQL schema, Node.js/Express API with JWT authentication, round-robin assignment, escalation, and an SLA breach monitor | Reviewed the structure and README |
+| 4. Report | Asked for the whole project in one place, in the order of the brief | A formal project report page following the brief's order | Reviewed it |
+| 5. Repository | Asked for a version that could be opened on GitHub | A repository layout with README, .gitignore, backend/ and docs/ folders | Created the GitHub repository, uploaded the files, and turned on GitHub Pages |
+
+## 3. Main prompts (summarised)
+
+1. "Can you make a project" (then chose: a website or landing page)
+2. Shared the project brief image and asked for the project to be built from it
+3. Agreed to continue with the database schema and backend APIs
+4. Asked for the overall project in one link, arranged in the order of the brief
+5. Asked for the project as a GitHub repository instead of a zip file
+
+## 4. What works and what does not yet
+
+*Works:* The prototype runs in a browser. It shows tickets sorted by priority, live SLA countdowns with breach warnings, valid status changes only, a comment thread, and different permissions for requesters, agents and admins.
+
+*Limitations (stated honestly):*
+- The prototype stores data in the browser only, so tickets are not shared between users.
+- The backend code was checked for syntax errors but has not yet been run against a real PostgreSQL database.
+- Not done yet: WebSocket live alerts, a React frontend, cloud deployment of the backend, and the final testing results.
+
+## 5. Human decisions and judgement
+
+- Chose a web application as the deliverable and kept the scope to what the brief asks.
+- Did not upload any password or .env file to the public repository.
+- Recognised that an old computer could not run the backend, so the backend was left for a later, properly equipped setup.
+- [add any other decisions or changes you made]
+
+## 6. Next steps
+
+1. Run the backend against PostgreSQL and fix issues found by testing.
+2. Add WebSocket push for SLA breach alerts.
+3. Build the React frontend against the API.
+4. Run the test plan in the project report and deploy.
