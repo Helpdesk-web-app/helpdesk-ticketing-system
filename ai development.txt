@@ -2,7 +2,7 @@ I-Assisted Development Log
 
 *Project:* Internal Helpdesk / Support Ticketing System
 *Live prototype:* https://helpdesk-web-app.github.io/helpdesk-ticketing-system/
-*Repository:* [add your repository link here]
+*Repository:* [ttps://github.com/Helpdesk-web-app/helpdesk-ticketing-system/edit/main/docs/ai%20development.txt]
 *AI tool used:* Claude (Anthropic), through the chat interface
 *Date:* 24 September 2026
 
@@ -15,14 +15,14 @@ I used an AI assistant as a development partner for the whole project. I supplie
 | Step | My input | What the AI produced | What I did |
 | --- | --- | --- | --- |
 | 1. Requirements | Shared the project brief as an image (title, brief, technology, five modules, deliverables) | Read the brief and mapped it to the five modules | Confirmed the project and its scope |
-| 2. Prototype | Asked for a website for the project | Working single-file web app: ticket form, priority-sorted queue, live SLA timers, status workflow with validation, comment thread, requester / agent / admin roles | [add what you tested] |
+| 2. Prototype | Asked for a website for the project | Working single-file web app: ticket form, priority-sorted queue, live SLA timers, status workflow with validation, comment thread, requester / agent / admin roles | [Tested the requester,agent,and admin views: created a ticket, watched the sla timer, moved it through IN progress, resolved and closed, added a comment, reassigned it and escalated its priority] |
 | 3. Backend | Agreed to build the full version, starting with the database and APIs | PostgreSQL schema, Node.js/Express API with JWT authentication, round-robin assignment, escalation, and an SLA breach monitor | Reviewed the structure and README |
 | 4. Report | Asked for the whole project in one place, in the order of the brief | A formal project report page following the brief's order | Reviewed it |
 | 5. Repository | Asked for a version that could be opened on GitHub | A repository layout with README, .gitignore, backend/ and docs/ folders | Created the GitHub repository, uploaded the files, and turned on GitHub Pages |
 
 ## 3. Main prompts (summarised)
 
-1. "Can you make a project" (then chose: a website or landing page)
+1. "Can you make a project" (create a helpdesk ticketing system website with requester, agent, admin views. Incl,ude ticket creation, category, and priority selection, SLA timer, ticket status management, comment/rep,lies, ticket assignment, priority escalation.  Create a clean, professional and user-friendly interface suitable for a college project)
 2. Shared the project brief image and asked for the project to be built from it
 3. Agreed to continue with the database schema and backend APIs
 4. Asked for the overall project in one link, arranged in the order of the brief
