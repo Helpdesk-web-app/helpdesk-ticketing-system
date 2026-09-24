@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Internal Helpdesk / Support Ticketing System: Project Report</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#f3f5f9;--card:#fff;--ink:#16213b;--mut:#5a6880;--line:#d8dfeb;--acc:#1f4fd8;--accbg:#e8eeff;--ok:#157a4b;--okbg:#e2f5ea;--warn:#a85a00;--warnbg:#fff1dc;--code:#eef1f7}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1626;--card:#16223a;--ink:#e8eefb;--mut:#93a4c0;--line:#2a3a58;--acc:#7da2ff;--accbg:#1c2e57;--ok:#5fd39b;--okbg:#12362a;--warn:#ffb554;--warnbg:#3a2a10;--code:#0e1a30}}
+:root[data-theme="dark"]{--bg:#0e1626;--card:#16223a;--ink:#e8eefb;--mut:#93a4c0;--line:#2a3a58;--acc:#7da2ff;--accbg:#1c2e57;--ok:#5fd39b;--okbg:#12362a;--warn:#ffb554;--warnbg:#3a2a10;--code:#0e1a30}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*:before,*:after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:28px;line-height:1.25;margin:0 0 6px;font-weight:600}
+h2{font-size:21px;margin:0 0 12px;font-weight:600}
+h3{font-size:16px;margin:20px 0 6px;font-weight:600}
+p{margin:8px 0;max-width:70ch}
+.sub{color:var(--mut);margin:0 0 20px}
+section{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:16px}
+.mh{display:flex;gap:12px;align-items:baseline;justify-content:space-between;flex-wrap:wrap}
+.tag{font-size:13px;font-weight:500;padding:2px 10px;border-radius:99px;background:var(--accbg);color:var(--acc);white-space:nowrap}
+.tag.ok{background:var(--okbg);color:var(--ok)}.tag.warn{background:var(--warnbg);color:var(--warn)}
+.tw{overflow-x:auto;margin:10px 0}
+table{width:100%;border-collapse:collapse;min-width:520px;font-size:15px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mut);font-weight:500;font-size:14px}
+pre{background:var(--code);border:1px solid var(--line);border-radius:8px;padding:12px;overflow-x:auto;font:13px/1.5 "IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;margin:10px 0}
+code{font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.9em;background:var(--code);padding:1px 5px;border-radius:4px}
+ul{margin:6px 0;padding-left:20px}li{margin:3px 0}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+.flow span{background:var(--accbg);color:var(--acc);padding:4px 12px;border-radius:8px;font-weight:500}
+.flow i{color:var(--mut);font-style:normal}
+.cta{display:inline-block;background:var(--acc);color:#fff;text-decoration:none;padding:9px 16px;border-radius:8px;font-weight:500;margin-top:6px}
+.cta:focus-visible,a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+a{color:var(--acc)}
+.note{color:var(--mut);font-size:14px}
+</style></head><body><main class="wrap">
+
+<h1>Internal Helpdesk / Support Ticketing System</h1>
+<p class="sub">Domain: IT Service Management Tech / Web Application Development</p>
+
+<section><h2>Project brief</h2>
+<p>Without a structured ticketing system, support requests such as IT issues, HR queries and customer complaints get lost in email inboxes, and nobody is accountable for resolution time. This project builds a ticket queue with prioritization, assignment, SLA-based resolution tracking and threaded internal communication.</p>
+<h3>Technology</h3>
+<div class="tw"><table><thead><tr><th>Layer</th><th>Suggested in brief</th><th>Used so far</th></tr></thead><tbody>
+<tr><td>Frontend</td><td>React.js</td><td>Single-file HTML/JS prototype (React version planned)</td></tr>
+<tr><td>Backend</td><td>Node.js / Express.js</td><td>Node.js, Express 4, JWT authentication</td></tr>
+<tr><td>Database</td><td>PostgreSQL</td><td>PostgreSQL schema with enums, constraints and indexes</td></tr>
+<tr><td>Real-time</td><td>WebSocket (optional)</td><td>Server-side breach event is ready; WebSocket push is planned</td></tr></tbody></table></div>
+<p class="note">Progress: Module 1 complete. Module 2 written and syntax-checked, not yet run against a live database. Module 3 backend logic written. Module 4 prototype working. Module 5 planned.</p></section>
+
+<section><div class="mh"><h2>Module 1: Requirement analysis and system design</h2><span class="tag ok">Complete</span></div>
+<h3>1. Helpdesk workflow and SLA requirements</h3>
+<p>Requesters raise tickets, the system assigns them to an agent, the agent works and resolves them, and the requester confirms and closes them. Each priority has a resolution target that starts when the ticket is created.</p>
+<div class="tw"><table><thead><tr><th>Priority</th><th>Rank</th><th>Resolution target</th></tr></thead><tbody>
+<tr><td>Critical</td><td>1</td><td>1 hour</td></tr><tr><td>High</td><td>2</td><td>4 hours</td></tr>
+<tr><td>Medium</td><td>3</td><td>8 hours</td></tr><tr><td>Low</td><td>4</td><td>24 hours</td></tr></tbody></table></div>
+<h3>2. Database schema</h3>
+<div class="tw"><table><thead><tr><th>Table</th><th>Purpose and key columns</th></tr></thead><tbody>
+<tr><td><code>users</code></td><td>name, email, password_hash, role (requester, agent, admin), last_assigned_at for round-robin</td></tr>
+<tr><td><code>categories</code></td><td>IT Issue, HR Query, Customer Complaint, Access Request, Facilities</td></tr>
+<tr><td><code>priorities</code></td><td>name, rank, sla_minutes</td></tr>
+<tr><td><code>tickets</code></td><td>title, description, category, priority, status, requester, assignee, due_at, resolved_at, breached_at, escalated_count</td></tr>
+<tr><td><code>comments</code></td><td>ticket, author (empty for system notes), body, is_system, created_at</td></tr></tbody></table></div>
+<h3>3. Ticket lifecycle</h3>
+<div class="flow"><span>Open</span><i>→</i><span>In Progress</span><i>→</i><span>Resolved</span><i>→</i><span>Closed</span></div>
+<p>Two backward moves are allowed: In Progress back to Open, and Resolved back to In Progress (reopen). Closed is final.</p>
+<h3>4. Wireframes</h3>
+<pre>Ticket submission form            Agent dashboard
++---------------------------+     +----------------------------------------------+
+| Title      [____________] |     | Open 4 | In progress 3 | Breached 1 | Unassigned 1 |
+| Category   [IT Issue   v] |     +----------------------------------------------+
+| Priority   [Medium     v] |     | #1003 Login server down  Critical  12m left  |
+| Details    [____________] |     | #1001 VPN drops          High      Breached  |
+|            [____________] |     | #1005 Refund delayed     High      2h left   |
+| [ Submit ticket ]         |     | #1002 Payslip missing    Medium    6h left   |
++---------------------------+     +----------------------------------------------+</pre></section>
+
+<section><div class="mh"><h2>Module 2: Backend development and database setup</h2><span class="tag warn">Written, not yet run</span></div>
+<h3>1. Ticket creation API</h3>
+<p><code>POST /tickets</code> requires a title, description and category, and accepts a priority (default medium). The SLA deadline is set as <code>now() + sla_minutes</code>.</p>
+<h3>2. Agent assignment</h3>
+<p>New tickets go to the agent who was assigned least recently (round-robin). Manual assignment is also supported: admins can assign any agent, and agents can take a ticket for themselves.</p>
+<pre>UPDATE users SET last_assigned_at = now()
+WHERE id = (SELECT id FROM users WHERE role = 'agent'
+            ORDER BY last_assigned_at NULLS FIRST, id
+            LIMIT 1 FOR UPDATE SKIP LOCKED)
+RETURNING id, name;</pre>
+<h3>3. SLA timer logic</h3>
+<p>A background monitor runs every 30 seconds. It marks any open or in-progress ticket past its <code>due_at</code> as breached once, writes a system note to the ticket, and emits a <code>sla.breach</code> event. Ticket queries also return <code>seconds_left</code> and <code>sla_breached</code> so the frontend can show live timers.</p>
+<h3>4. Authentication and roles</h3>
+<div class="tw"><table><thead><tr><th>Action</th><th>Requester</th><th>Agent</th><th>Admin</th></tr></thead><tbody>
+<tr><td>Create ticket, view own tickets</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>View all tickets and stats</td><td>No</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>Change status</td><td>Close or reopen a resolved ticket only</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>Assign</td><td>No</td><td>To themselves only</td><td>To any agent</td></tr>
+<tr><td>Escalate priority</td><td>No</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>Create agents and admins</td><td>No</td><td>No</td><td>Yes</td></tr></tbody></table></div>
+<div class="tw"><table><thead><tr><th>Endpoint</th><th>Use</th></tr></thead><tbody>
+<tr><td><code>POST /auth/register</code>, <code>POST /auth/login</code></td><td>Sign up (requester) and sign in, returns a JWT</td></tr>
+<tr><td><code>POST /auth/users</code></td><td>Admin creates agents and admins</td></tr>
+<tr><td><code>GET /tickets</code>, <code>POST /tickets</code></td><td>Queue with filters (status, priority, assignee, breached) and creation</td></tr>
+<tr><td><code>GET /tickets/:id</code></td><td>Ticket detail with comment thread</td></tr>
+<tr><td><code>GET /tickets/stats/summary</code></td><td>Open, in progress, breached and unassigned counts</td></tr></tbody></table></div></section>
+
+<section><div class="mh"><h2>Module 3: Core feature implementation</h2><span class="tag warn">Backend written</span></div>
+<h3>1. Status workflow with transition validation</h3>
+<p><code>PATCH /tickets/:id/status</code> checks the requested move against the allowed transitions. An invalid move returns a 409 error that lists the allowed next states.</p>
+<div class="tw"><table><thead><tr><th>From</th><th>Allowed next status</th></tr></thead><tbody>
+<tr><td>Open</td><td>In Progress</td></tr><tr><td>In Progress</td><td>Resolved, Open</td></tr>
+<tr><td>Resolved</td><td>Closed, In Progress</td></tr><tr><td>Closed</td><td>None</td></tr></tbody></table></div>
+<h3>2. Internal comment thread</h3>
+<p><code>POST /tickets/:id/comments</code> adds a reply from the requester or an agent. Assignments, status changes, escalations and SLA breaches are logged in the same thread as system notes. Closed tickets are locked.</p>
+<h3>3. SLA-breach alerts</h3>
+<p>The monitor records the breach and emits an event. The prototype shows a red banner and a toast for staff. Live push to browsers through WebSocket is the remaining piece.</p>
+<h3>4. Reassignment and escalation</h3>
+<p><code>PATCH /tickets/:id/assignee</code> reassigns a ticket. <code>POST /tickets/:id/escalate</code> raises the priority by one level and recalculates the deadline from the original creation time, so an escalated ticket may be breached immediately.</p></section>
+
+<section><div class="mh"><h2>Module 4: Frontend development and user experience</h2><span class="tag warn">Prototype working</span></div>
+<p>The working prototype covers the ticket submission form, the priority-sorted agent dashboard with live SLA timers, and the ticket detail view with status actions and comment thread. It has a role switch so you can try the requester, agent and admin views. It stores data in the browser only and does not call the backend yet.</p>
+<a class="cta" href="https://claude.ai/artifact/7P15mrkpwJ3ekRobADqXJ3" target="_blank" rel="noopener">Open the working prototype</a>
+<p class="note">The prototype is a separate page. It is private to the account that made it until that owner shares it.</p>
+<h3>Usability testing scenarios</h3>
+<ul><li>A requester submits a Critical ticket and finds its SLA timer.</li><li>An agent works the queue from the top, replies, and resolves a ticket.</li><li>An admin reassigns a breached ticket and escalates another.</li></ul></section>
+
+<section><div class="mh"><h2>Module 5: Testing, deployment and final reporting</h2><span class="tag">Planned</span></div>
+<h3>1 and 2. Test plan</h3>
+<div class="tw"><table><thead><tr><th>Area</th><th>Check</th></tr></thead><tbody>
+<tr><td>SLA accuracy</td><td>Create one ticket per priority and confirm the deadline is 1h, 4h, 8h and 24h after creation</td></tr>
+<tr><td>Breach detection</td><td>Set a short deadline in a test database and confirm one breach note and one event, with no repeats</td></tr>
+<tr><td>Assignment</td><td>Create six tickets and confirm they rotate evenly across three agents</td></tr>
+<tr><td>Transitions</td><td>Try every invalid move and confirm a 409 response</td></tr>
+<tr><td>Role isolation</td><td>Confirm a requester cannot read another requester's ticket (404) or assign tickets (403)</td></tr>
+<tr><td>Comment integrity</td><td>Confirm order, authorship and system notes for each role, and that closed tickets reject comments</td></tr></tbody></table></div>
+<h3>3. Deployment</h3>
+<ul><li>Host PostgreSQL on a managed service and run <code>schema.sql</code> once.</li><li>Deploy the Node API to a cloud host with <code>DATABASE_URL</code> and a long random <code>JWT_SECRET</code> set as environment variables.</li><li>Run the seed script for sample agents, then add sample tickets, and change the default seed password.</li></ul>
+<h3>4. Final report</h3>
+<p>This page is the design and workflow record. The testing results section will be filled in after the test plan above is run.</p></section>
+
+<section><h2>Expected outcomes and deliverables</h2>
+<div class="tw"><table><thead><tr><th>Deliverable</th><th>Status</th></tr></thead><tbody>
+<tr><td>Ticket queue system: prioritized, assignable tickets</td><td>Backend written; prototype working</td></tr>
+<tr><td>SLA tracking engine: automated breach detection and alerts</td><td>Monitor written; live push planned</td></tr>
+<tr><td>Internal comment threads: structured agent-requester communication</td><td>Backend written; prototype working</td></tr>
+<tr><td>Final report: design, workflows and testing results</td><td>Design and workflows done; testing results pending</td></tr></tbody></table></div>
+<h3>Pre-requisites</h3>
+<p>Web development fundamentals, relational database design, and basic real-time notification concepts.</p>
+<h3>Next steps</h3>
+<ul><li>Run the backend against a real PostgreSQL database and fix anything the tests reveal.</li><li>Add WebSocket push for SLA breach alerts.</li><li>Build the React frontend against the API.</li><li>Run the test plan and deploy.</li></ul></section>
+
+</main></body></html>
