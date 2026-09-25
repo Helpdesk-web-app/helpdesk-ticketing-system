@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Helpdesk: Internal Support Ticketing</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#eef2f6;--card:#fff;--ink:#14213d;--mut:#5b6b82;--line:#d5dde8;--acc:#1f4fd8;--accbg:#e6edff;--ok:#157a4b;--okbg:#e2f5ea;--warn:#a85a00;--warnbg:#fff1dc;--bad:#c0262d;--badbg:#fde8e8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1626;--card:#16223a;--ink:#e8eefb;--mut:#93a4c0;--line:#2a3a58;--acc:#7da2ff;--accbg:#1c2e57;--ok:#5fd39b;--okbg:#12362a;--warn:#ffb554;--warnbg:#3a2a10;--bad:#ff8c90;--badbg:#3f1a1e}}
+:root[data-theme="dark"]{--bg:#0e1626;--card:#16223a;--ink:#e8eefb;--mut:#93a4c0;--line:#2a3a58;--acc:#7da2ff;--accbg:#1c2e57;--ok:#5fd39b;--okbg:#12362a;--warn:#ffb554;--warnbg:#3a2a10;--bad:#ff8c90;--badbg:#3f1a1e}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*:before,*:after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:16px}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:16px}
+h1{font-size:20px;margin:0;font-weight:600}h1 small{display:block;font-size:13px;font-weight:400;color:var(--mut)}
+h2{font-size:17px;margin:0 0 12px;font-weight:600}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--card)}
+.seg button{border:0;background:none;color:var(--mut);padding:7px 14px;font:inherit;cursor:pointer}
+.seg button.on{background:var(--acc);color:#fff}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:14px}
+.btn{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:7px 13px;border-radius:8px;cursor:pointer}
+.btn:hover{border-color:var(--acc)}.btn.p{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn:focus-visible,.seg button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,tr[tabindex]:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.banner{background:var(--badbg);color:var(--bad);border:1px solid var(--bad);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-weight:500}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.stat b{display:block;font-size:24px;line-height:1.2}.stat span{color:var(--mut);font-size:13px}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:640px}
+th{text-align:left;font-weight:500;color:var(--mut);font-size:13px;padding:6px 10px;border-bottom:1px solid var(--line)}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
+tbody tr{cursor:pointer}tbody tr:hover{background:var(--bg)}
+td.pb{border-left:4px solid var(--line);padding-left:10px}
+.p-Critical{border-left-color:var(--bad)!important}.p-High{border-left-color:var(--warn)!important}.p-Medium{border-left-color:var(--acc)!important}
+.pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:13px;font-weight:500;background:var(--bg);color:var(--mut);white-space:nowrap}
+.pill.ok{background:var(--okbg);color:var(--ok)}.pill.warn{background:var(--warnbg);color:var(--warn)}.pill.bad{background:var(--badbg);color:var(--bad)}.pill.acc{background:var(--accbg);color:var(--acc)}
+label{display:block;font-weight:500;margin:12px 0 4px}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+textarea{min-height:90px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:560px){.row{grid-template-columns:1fr}}
+.meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 12px}
+.acts{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.acts select{width:auto}
+.cm{border-left:3px solid var(--line);padding:2px 0 2px 12px;margin:12px 0}
+.cm.staff{border-left-color:var(--acc)}.cm.system{border-left-color:transparent;color:var(--mut);font-size:13px;padding-left:0}
+.cm small{color:var(--mut)}.cm p{margin:2px 0;white-space:pre-wrap}
+.empty{color:var(--mut);padding:24px;text-align:center}
+#toast{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;max-width:90%;display:none;z-index:9}
+.note{color:var(--mut);font-size:13px;margin-top:8px}
+</style></head><body><div class="wrap" id="app"></div><div id="toast" role="status"></div>
+<script>
+const SLA={Critical:1,High:4,Medium:8,Low:24},PRI=['Critical','High','Medium','Low'],CATS=['IT Issue','HR Query','Customer Complaint','Access Request','Facilities'];
+const NEXT={'Open':['In Progress'],'In Progress':['Resolved','Open'],'Resolved':['Closed','In Progress'],'Closed':[]};
+const H=36e5,M=6e4,ME={Requester:'Priya',Agent:'Arun',Admin:'Admin'};
+const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function seed(){const n=Date.now(),c=(by,role,text,ago)=>({by,role,text,at:n-ago});
+return{n:1006,rr:0,agents:['Arun','Meena','Karthik'],t:[
+{id:1000,title:'Printer on floor 2 is jammed',cat:'Facilities',pri:'Low',desc:'Paper tray keeps jamming.',status:'Resolved',req:'Priya',asg:'Meena',created:n-6*H,done:n-5*H,cm:[c('Meena','Agent','Cleared the jam and replaced the roller.',5*H)]},
+{id:1001,title:'VPN drops every 10 minutes',cat:'IT Issue',pri:'High',desc:'Working from home; VPN disconnects during calls.',status:'In Progress',req:'Priya',asg:'Arun',created:n-5*H,cm:[c('Priya','Requester','Happens on Wi-Fi and on my phone hotspot.',4.8*H),c('Arun','Agent','Checking gateway logs for your account.',4.5*H)]},
+{id:1002,title:'August payslip is missing',cat:'HR Query',pri:'Medium',desc:'The payslip portal shows no entry for August.',status:'Open',req:'Priya',asg:'Meena',created:n-2*H,cm:[]},
+{id:1003,title:'Production login server is down',cat:'IT Issue',pri:'Critical',desc:'Customers cannot sign in.',status:'In Progress',req:'Rahul',asg:'Karthik',created:n-42*M,cm:[c('Karthik','Agent','Restarting the auth service now.',30*M)]},
+{id:1004,title:'Need access to the shared finance drive',cat:'Access Request',pri:'Low',desc:'Manager approved; please grant read access.',status:'Open',req:'Rahul',asg:'Arun',created:n-3*H,cm:[]},
+{id:1005,title:'Refund delayed for three weeks',cat:'Customer Complaint',pri:'High',desc:'A customer says the refund for order 8841 is still pending.',status:'Open',req:'Rahul',asg:null,created:n-90*M,cm:[]}]}}
+let S;try{S=JSON.parse(localStorage.getItem('hd1'))}catch(e){}if(!S)S=seed();if(!Array.isArray(S.agents))S.agents=[...new Set(S.t.map(t=>t.asg).filter(Boolean))];
+const ui={role:'Requester',view:'list',sel:null,f:'Active'};
+const save=()=>{try{localStorage.setItem('hd1',JSON.stringify(S))}catch(e){}};
+const due=t=>t.created+SLA[t.pri]*H,staff=()=>ui.role!=='Requester',me=()=>ME[ui.role];
+const vis=()=>staff()?S.t:S.t.filter(t=>t.req===me());
+const fmt=ms=>{ms=Math.abs(ms);const m=Math.floor(ms/M),h=Math.floor(m/60);return h?`${h}h ${m%60}m`:`${m}m ${Math.floor(ms/1000)%60}s`};
+function sla(t){if(t.done){const b=t.done>due(t);return{txt:b?'SLA missed':'SLA met',cls:b?'bad':'ok'}}const d=due(t)-Date.now();return d<0?{txt:'Breached '+fmt(d)+' ago',cls:'bad'}:{txt:fmt(d)+' left',cls:d<SLA[t.pri]*H*.25?'warn':'ok'}}
+const slaPill=t=>{const x=sla(t);return`<span class="pill ${x.cls}" data-sla="${t.id}">${x.txt}</span>`};
+const active=t=>t.status==='Open'||t.status==='In Progress',breached=t=>active(t)&&Date.now()>due(t);
+const stCls={Open:'acc','In Progress':'warn',Resolved:'ok',Closed:''};
+function log(t,text){t.cm.push({by:'System',role:'system',text,at:Date.now()})}
+function toast(m){const e=$('#toast');e.textContent=m;e.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>e.style.display='none',5000)}
+function head(){return`<header><h1>Helpdesk<small>Internal support ticketing with SLA tracking</small></h1>
+<div class="acts" style="margin:0">${ui.role==='Admin'?`<button class="btn" data-a="team">Manage team</button>`:''}
+<div class="seg" role="group" aria-label="Signed in as">${Object.keys(ME).map(r=>`<button data-a="role" data-v="${r}" class="${ui.role===r?'on':''}">${r}</button>`).join('')}</div></div></header>`}
+function list(){const all=vis();let rows=all.slice();
+const F={Active:active,Breached:breached,Unassigned:t=>!t.asg&&active(t),All:()=>true}[ui.f]||active;rows=rows.filter(F);
+rows.sort((a,b)=>(active(b)-active(a))||PRI.indexOf(a.pri)-PRI.indexOf(b.pri)||due(a)-due(b));
+const st=staff()?`<div class="stats"><div class="stat"><b>${all.filter(t=>t.status==='Open').length}</b><span>Open</span></div><div class="stat"><b>${all.filter(t=>t.status==='In Progress').length}</b><span>In progress</span></div><div class="stat"><b>${all.filter(breached).length}</b><span>Breached</span></div><div class="stat"><b>${all.filter(t=>!t.asg&&active(t)).length}</b><span>Unassigned</span></div></div>`:'';
+return`${st}<div class="bar"><h2 style="margin:0">${staff()?'Ticket queue, highest priority first':'My tickets'}</h2><div class="acts" style="margin:0"><select id="flt" aria-label="Filter">${['Active','Breached','Unassigned','All'].map(f=>`<option ${f===ui.f?'selected':''}>${f}</option>`).join('')}</select><button class="btn p" data-a="new">New ticket</button></div></div>
+<div class="card tw">${rows.length?`<table><thead><tr><th>Ticket</th><th>Category</th><th>Priority</th><th>SLA</th><th>Status</th><th>Assigned to</th></tr></thead><tbody>${rows.map(t=>`<tr tabindex="0" data-a="open" data-id="${t.id}"><td class="pb p-${t.pri}"><b>#${t.id}</b> ${esc(t.title)}</td><td>${t.cat}</td><td>${t.pri}</td><td>${slaPill(t)}</td><td><span class="pill ${stCls[t.status]}">${t.status}</span></td><td>${t.asg||'<span class="pill">Unassigned</span>'}</td></tr>`).join('')}</tbody></table>`:'<div class="empty">No tickets match this filter. Choose All to see every ticket.</div>'}</div>`}
+function form(){return`<button class="btn" data-a="back">Back to tickets</button><div class="card" style="margin-top:12px"><h2>New ticket</h2>
+<label for="nt">Title</label><input id="nt" maxlength="120" placeholder="Short summary of the problem">
+<div class="row"><div><label for="nc">Category</label><select id="nc">${CATS.map(c=>`<option>${c}</option>`).join('')}</select></div>
+<div><label for="np">Priority</label><select id="np">${PRI.map(p=>`<option ${p==='Medium'?'selected':''}>${p}</option>`).join('')}</select></div></div>
+<label for="nd">Details</label><textarea id="nd" placeholder="What happened, and what have you tried?"></textarea>
+<p class="note">Response targets: Critical 1h, High 4h, Medium 8h, Low 24h. New tickets are assigned to the next agent in rotation.</p>
+<div class="acts"><button class="btn p" data-a="create">Submit ticket</button></div></div>`}
+function detail(){const t=S.t.find(x=>x.id===ui.sel);if(!t)return'';
+const acts=NEXT[t.status].filter(s=>staff()||t.status==='Resolved').map(s=>`<button class="btn" data-a="status" data-id="${t.id}" data-v="${s}">${!staff()&&s==='In Progress'?'Reopen ticket':'Move to '+s}</button>`).join('');
+let asg=t.asg||'Unassigned';
+if(ui.role==='Admin')asg=`<select data-a="assign" data-id="${t.id}" aria-label="Assign agent"><option value="">Unassigned</option>${S.agents.map(a=>`<option ${a===t.asg?'selected':''}>${a}</option>`).join('')}</select>`;
+else if(ui.role==='Agent'&&t.asg!==me())asg=`${asg} <button class="btn" data-a="claim" data-id="${t.id}">Assign to me</button>`;
+const esc_=staff()&&active(t)?`<button class="btn" data-a="esc" data-id="${t.id}">Escalate priority</button>`:'';
+return`<button class="btn" data-a="back">Back to tickets</button><div class="card" style="margin-top:12px"><h2>#${t.id} ${esc(t.title)}</h2>
+<div class="meta"><span class="pill ${stCls[t.status]}">${t.status}</span><span class="pill">${t.pri} priority</span><span class="pill">${t.cat}</span>${slaPill(t)}</div>
+<p style="margin:0">${esc(t.desc)}</p><p class="note">Raised by ${esc(t.req)}, ${new Date(t.created).toLocaleString()}</p>
+<div class="acts"><span>Assigned to</span>${asg}${esc_}</div><div class="acts">${acts}</div></div>
+<div class="card"><h2>Conversation</h2>${t.cm.length?t.cm.map(c=>`<div class="cm ${c.role==='system'?'system':c.role==='Requester'?'':'staff'}"><small>${esc(c.by)}${c.role==='system'?'':', '+c.role}, ${new Date(c.at).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</small>${c.role==='system'?`<div>${esc(c.text)}</div>`:`<p>${esc(c.text)}</p>`}</div>`).join(''):'<div class="empty">No messages yet. Add the first reply below.</div>'}
+${t.status==='Closed'?'<p class="note">This ticket is closed. Comments are locked.</p>':`<label for="cm">Add a reply</label><textarea id="cm"></textarea><div class="acts"><button class="btn p" data-a="reply" data-id="${t.id}">Send reply</button></div>`}</div>`}
+function team(){const busy=n=>S.t.filter(t=>t.asg===n&&active(t)).length;
+return`<button class="btn" data-a="back">Back to tickets</button><div class="card" style="margin-top:12px"><h2>Team</h2>
+<p class="note">Agents added here appear in ticket assignment and get new tickets in rotation. This list is specific to your company.</p>
+${S.agents.length?`<table><thead><tr><th>Agent</th><th>Active tickets</th><th></th></tr></thead><tbody>${S.agents.map(a=>`<tr><td>${esc(a)}</td><td>${busy(a)}</td><td><button class="btn" data-a="rmagent" data-name="${esc(a)}">Remove</button></td></tr>`).join('')}</tbody></table>`:'<div class="empty">No agents yet. Add your first employee below.</div>'}
+<label for="na">Add employee</label><div class="acts"><input id="na" placeholder="Employee name" style="width:auto;flex:1"><button class="btn p" data-a="addagent">Add</button></div></div>`}
+function render(){const k=$('#cm')?.value;const ban=staff()?S.t.filter(breached).length:0;
+$('#app').innerHTML=head()+(ban?`<div class="banner" role="alert">${ban} ticket${ban>1?'s have':' has'} breached the SLA. Review the queue.</div>`:'')+(ui.view==='new'?form():ui.view==='detail'?detail():ui.view==='team'?team():list());
+if(k&&$('#cm'))$('#cm').value=k}
+document.addEventListener('click',e=>{const el=e.target.closest('[data-a]');if(!el||el.tagName==='SELECT')return;const a=el.dataset.a,id=+el.dataset.id,t=S.t.find(x=>x.id===id);
+if(a==='role'){ui.role=el.dataset.v;ui.view='list';ui.f='Active'}
+else if(a==='open'){ui.sel=id;ui.view='detail'}
+else if(a==='back')ui.view='list';
+else if(a==='new')ui.view='new';
+else if(a==='team')ui.view='team';
+else if(a==='addagent'){const v=$('#na').value.trim();if(!v){toast('Enter an employee name.');return}
+if(S.agents.includes(v)){toast(v+' is already on the team.');return}S.agents.push(v);toast(v+' added to the team.')}
+else if(a==='rmagent'){const nm=el.dataset.name;S.agents=S.agents.filter(a=>a!==nm);
+S.t.filter(x=>x.asg===nm).forEach(x=>{x.asg=null;log(x,nm+' was removed from the team, so this ticket is now unassigned.')});
+toast(nm+' removed from the team.')}
+else if(a==='create'){const ti=$('#nt').value.trim(),d=$('#nd').value.trim();if(!ti||!d){toast('Add a title and details before submitting.');return}
+const asg=S.agents.length?S.agents[S.rr++%S.agents.length]:null,n=Date.now(),nt={id:S.n++,title:ti,cat:$('#nc').value,pri:$('#np').value,desc:d,status:'Open',req:me(),asg,created:n,cm:[]};
+log(nt,asg?'Ticket created and assigned to '+asg+' by rotation.':'Ticket created. No agent is available yet.');S.t.push(nt);ui.sel=nt.id;ui.view='detail';toast('Ticket #'+nt.id+' submitted.')}
+else if(a==='status'){const v=el.dataset.v;if(!NEXT[t.status].includes(v)||(!staff()&&t.status!=='Resolved')){toast('That status change is not allowed.');return}
+const from=t.status;t.status=v;if(v==='Resolved')t.done=Date.now();if(from==='Resolved'&&v==='In Progress'){t.done=null;t.alerted=false}log(t,`${me()} moved the ticket from ${from} to ${v}.`)}
+else if(a==='claim'){t.asg=me();log(t,me()+' took this ticket.')}
+else if(a==='esc'){const i=PRI.indexOf(t.pri);if(i===0){toast('Already at the highest priority.');return}
+const o=t.pri;t.pri=PRI[i-1];t.alerted=false;log(t,`${me()} escalated priority from ${o} to ${t.pri}. The SLA target is now ${SLA[t.pri]}h.`)}
+else if(a==='reply'){const v=$('#cm').value.trim();if(!v){toast('Write a reply first.');return}t.cm.push({by:me(),role:ui.role==='Requester'?'Requester':ui.role,text:v,at:Date.now()})}
+save();render()});
+document.addEventListener('change',e=>{const el=e.target;if(el.id==='flt'){ui.f=el.value;render()}
+else if(el.dataset.a==='assign'){const t=S.t.find(x=>x.id===+el.dataset.id);t.asg=el.value||null;log(t,el.value?`Admin assigned the ticket to ${el.value}.`:'Admin unassigned the ticket.');save();render()}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches('tr[data-a]'))e.target.click()});
+setInterval(()=>{const nb=[];S.t.forEach(t=>{const x=sla(t);document.querySelectorAll(`[data-sla="${t.id}"]`).forEach(el=>{el.textContent=x.txt;el.className='pill '+x.cls});if(breached(t)&&!t.alerted){t.alerted=true;nb.push(t)}});
+if(nb.length){save();if(staff())toast(`SLA breached: #${nb[0].id} ${nb[0].title}`);render()}},1000);
+render();
+</script></body></html>
